@@ -1,0 +1,43 @@
+project:
+  name: quickstart-qingcloud-kubesphere
+  owner: quickstart-eng@amazon.com
+  build_submodules: true
+  package_lambda: true
+  regions:
+  - us-west-2
+  - us-east-1
+  - ca-central-1
+  - cn-northwest-1
+  - cn-north-1
+  s3_bucket: ''
+  parameters:
+    RemoteAccessCIDR: 10.0.0.0/16
+    QSS3BucketName: $[taskcat_autobucket]
+    QSS3BucketRegion: $[taskcat_current_region]
+    KubeSphereConsolePassword: P!$[taskcat_genpass_12A]
+  lambda_source_path: functions/source
+  lambda_zip_path: functions/packages
+tests:
+  qingcloud-kubesphere-defaults:
+    parameters:
+      Alerting: 'false'
+      AvailabilityZones: $[taskcat_genaz_3]
+      Devops: 'false'
+      KeyPairName: override
+      KubeSphereLicenseKey: OVERRIDE
+      Logging: 'false'
+      NodeInstanceType: t3.xlarge
+      Notification: 'false'
+      Openpitrix: 'false'
+      Servicemesh: 'false'
+      Events: 'false'
+      Auditing: 'false'
+      MetricsServer: 'true'
+      Networkpolicy: 'false'
+      Kubeedge: 'false'
+    regions:
+    - us-east-1
+    - us-west-2
+    - ca-central-1
+    #- cn-northwest-1
+    template: templates/kubesphere-entrypoint-new-vpc.template.yaml
